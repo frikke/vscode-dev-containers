@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:16-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:18-bullseye
 
-ARG NODE_VERSION="16"
+ARG NODE_VERSION="18"
 COPY library-scripts/desktop-lite-debian.sh /tmp/library-scripts/
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 	&& bash /tmp/library-scripts/desktop-lite-debian.sh \
@@ -23,3 +23,10 @@ ENV DBUS_SESSION_BUS_ADDRESS="autolaunch:" \
 
 ENTRYPOINT ["/usr/local/share/desktop-init.sh"]
 CMD ["sleep", "infinity"]
+
+RUN echo 'echo "NOTE: This Docker image has been discontinued and no longer receives any updates."' \
+	| tee -a /home/node/.bashrc \
+	| tee -a /home/node/.zshrc \
+	| tee -a /root/.bashrc \
+	| tee -a /root/.zshrc \
+	>/dev/null
